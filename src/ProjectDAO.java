@@ -4,18 +4,18 @@ import java.util.List;
 
 public class ProjectDAO {
 
-    public void addProject(String title, int deadline, int revenue) {
-        String sql = "INSERT INTO projects (title, deadline, revenue) VALUES (?, ?, ?)";
+    public void addProject(String name, int deadline, int revenue) {
+        String sql = "INSERT INTO projects (name, deadline, revenue) VALUES (?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, title);
+            ps.setString(1, name);
             ps.setInt(2, deadline);
             ps.setInt(3, revenue);
             ps.executeUpdate();
 
-            System.out.println(" Project added successfully!");
+            System.out.println("Project added successfully!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,9 +33,10 @@ public class ProjectDAO {
             while (rs.next()) {
                 projects.add(new Project(
                         rs.getInt("project_id"),
-                        rs.getString("title"),
+                        rs.getString("name"),
                         rs.getInt("deadline"),
-                        rs.getInt("revenue")));
+                        rs.getInt("revenue")
+                ));
             }
 
         } catch (Exception e) {
@@ -45,8 +46,9 @@ public class ProjectDAO {
     }
 
     public void completeProject(int id) {
+
         String selectSql = "SELECT * FROM projects WHERE project_id = ?";
-        String insertSql = "INSERT INTO historical_projects (title, deadline, revenue) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO historical_projects (name, deadline, revenue) VALUES (?, ?, ?)";
         String deleteSql = "DELETE FROM projects WHERE project_id = ?";
 
         try (Connection con = DBConnection.getConnection();
@@ -54,23 +56,25 @@ public class ProjectDAO {
              PreparedStatement psIns = con.prepareStatement(insertSql);
              PreparedStatement psDel = con.prepareStatement(deleteSql)) {
 
-            // Ensure the history table exists before we try to use it
             ensureHistoryTableExists(con);
 
             psSel.setInt(1, id);
             ResultSet rs = psSel.executeQuery();
 
             if (rs.next()) {
-                psIns.setString(1, rs.getString("title"));
+
+                psIns.setString(1, rs.getString("name"));
                 psIns.setInt(2, rs.getInt("deadline"));
                 psIns.setInt(3, rs.getInt("revenue"));
                 psIns.executeUpdate();
 
                 psDel.setInt(1, id);
                 psDel.executeUpdate();
-                System.out.println(" Project marked as completed and moved to history!");
+
+                System.out.println("Project marked as completed and moved to history!");
+
             } else {
-                System.out.println(" Project not found!");
+                System.out.println("Project not found!");
             }
 
         } catch (Exception e) {
@@ -79,12 +83,14 @@ public class ProjectDAO {
     }
 
     private void ensureHistoryTableExists(Connection con) throws SQLException {
+
         String sql = "CREATE TABLE IF NOT EXISTS historical_projects (" +
                 "id SERIAL PRIMARY KEY, " +
-                "title VARCHAR(100), " +
+                "name VARCHAR(100), " +
                 "deadline INT, " +
                 "revenue INT, " +
                 "completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+
         try (Statement st = con.createStatement()) {
             st.execute(sql);
         }

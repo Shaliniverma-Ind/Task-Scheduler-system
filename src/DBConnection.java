@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/taskscheduler";
+    private static final String URL = "jdbc:postgresql://localhost:5432/task_scheduler_system";
     private static final String USER = "postgres";
     private static final String PASSWORD = "Shalini19jan";
 
