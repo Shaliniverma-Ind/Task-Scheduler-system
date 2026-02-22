@@ -19,12 +19,16 @@ public class HistoryTable {
 
                 // Add some dummy data for predictive analysis
                 String dumpData = "INSERT INTO historical_projects (title, deadline, revenue) VALUES " +
-                        "('Past UI Work', 5, 50000), " +
-                        "('Past Backend', 4, 45000), " +
-                        "('Past Design', 7, 30000), " +
-                        "('Emergency Fix', 1, 80000), " +
-                        "('Small Bug', 10, 5000), " +
-                        "('Consultation', 2, 20000);";
+                        "('Small UI Fix', 2, 5000), " +
+                        "('E-commerce Backend', 5, 80000), " +
+                        "('Mobile App Design', 3, 40000), " +
+                        "('Legacy Migration', 10, 120000), " +
+                        "('API Integration', 4, 30000), " +
+                        "('Database Optimization', 2, 25000), " +
+                        "('Security Audit', 1, 50000), " +
+                        "('Cloud Deployment', 7, 70000), " +
+                        "('Frontend Refactor', 5, 15000), " +
+                        "('Unit Test Suite', 3, 10000);";
                 stmt.execute(dumpData);
                 System.out.println("Mock history data populated.");
             }

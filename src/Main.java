@@ -9,9 +9,9 @@ public class Main {
         ProjectDAO dao = new ProjectDAO();
 
         while (true) {
-            System.out.println("\n ProManage Solutions ");
-            System.out.println("1. Add Project");
-            System.out.println("2. View Projects");
+            System.out.println("\n project Managing ");
+            System.out.println("1. Enlist Project ");
+            System.out.println("2. View list of Projects added");
             System.out.println("3. Generate Weekly Schedule");
             System.out.println("4. Mark Project as Completed");
             System.out.println("5. Exit");
